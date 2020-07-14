@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Prediction_Meter</class>
+ <widget class="QDialog" name="Prediction_Meter">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>561</width>
+    <height>346</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLCDNumber" name="Result">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>210</y>
+     <width>64</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Heading">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>10</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; text-decoration: underline; color:#204a87;&quot;&gt;Diabetes Prediction &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>60</y>
+     <width>501</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0">
+     <widget class="QLabel" name="dp">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;*Diabets pedigree:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QTextEdit" name="glucose_2"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLabel" name="sk_thick">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Skin Thickness: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QTextEdit" name="dp_2"/>
+    </item>
+    <item row="1" column="3">
+     <widget class="QTextEdit" name="bmi_2"/>
+    </item>
+    <item row="1" column="1">
+     <widget class="QTextEdit" name="preg_2"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="glucose">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;*Glucose:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLabel" name="bp">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Blood Pressure :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QTextEdit" name="sk_thick_2"/>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="insu">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;Insulin :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QTextEdit" name="age_2"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="preg">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;*Pregnancies:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="age">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;*Age:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QTextEdit" name="bp_2"/>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTextEdit" name="insu_2"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="bmi">
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;*BMI:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="Prediction">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>210</y>
+     <width>80</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Result</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

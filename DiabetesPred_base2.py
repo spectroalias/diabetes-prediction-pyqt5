@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'DiabetesPred_base2.ui'
+#
+# Created by: PyQt5 UI code generator 5.14.2
+#
+# WARNING! All changes made in this file will be lost!
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
-import numpy as np
-import pickle
-import Diabetes_DL_script
-from Diabetes_DL_script import diabetes_model
+
 
 class Ui_Prediction_Meter(object):
-    def __init__(self):
-        self.model = diabetes_model()
-
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
         Prediction_Meter.resize(561, 346)
@@ -72,7 +74,7 @@ class Ui_Prediction_Meter(object):
         self.bmi = QtWidgets.QLabel(self.layoutWidget)
         self.bmi.setObjectName("bmi")
         self.gridLayout.addWidget(self.bmi, 1, 2, 1, 1)
-        self.Prediction = QtWidgets.QPushButton(Prediction_Meter,clicked=self.calculation)
+        self.Prediction = QtWidgets.QPushButton(Prediction_Meter)
         self.Prediction.setGeometry(QtCore.QRect(340, 210, 80, 19))
         self.Prediction.setObjectName("Prediction")
 
@@ -81,7 +83,7 @@ class Ui_Prediction_Meter(object):
 
     def retranslateUi(self, Prediction_Meter):
         _translate = QtCore.QCoreApplication.translate
-        Prediction_Meter.setWindowTitle(_translate("Prediction_Meter", "Prediction Meter"))
+        Prediction_Meter.setWindowTitle(_translate("Prediction_Meter", "Dialog"))
         self.Heading.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600; text-decoration: underline; color:#204a87;\">Diabetes Prediction </span></p></body></html>"))
         self.dp.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">*Diabets pedigree:</p></body></html>"))
         self.sk_thick.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">Skin Thickness: </p></body></html>"))
@@ -92,23 +94,3 @@ class Ui_Prediction_Meter(object):
         self.age.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">*Age:</p></body></html>"))
         self.bmi.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">*BMI:</p></body></html>"))
         self.Prediction.setText(_translate("Prediction_Meter", "Result"))
-
-    def calculation(self):
-        #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
-        arr=[self.preg_2.toPlainText(),self.glucose_2.toPlainText(),self.bp_2.toPlainText(),self.sk_thick_2.toPlainText(),self.insu_2.toPlainText(),self.bmi_2.toPlainText(),self.dp_2.toPlainText(),self.age_2.toPlainText()]
-        arr= list(map(float,arr))
-        arr= np.array(arr)
-        pred = self.model.predict(arr.reshape(1,8))
-        print(pred) #debugging float("{:.2f}".format(round(pred, 4)))
-        self.Result.display(float("{:.2f}".format(round(pred, 4))))
-
-app = QtWidgets.QApplication(sys.argv)
-Dialog = QtWidgets.QDialog()
-ui = Ui_Prediction_Meter()
-ui.setupUi(Dialog)
-
-
-Dialog.show()
-sys.exit(app.exec_())
-
-    

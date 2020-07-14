@@ -28,6 +28,7 @@ entrypoints==0.3
 fasteners==0.14.1
 filelock==3.0.12
 future==0.18.2
+h5py==2.10.0
 html5lib==1.0.1
 httplib2==0.14.0
 idna==2.8
@@ -42,6 +43,7 @@ jsonschema==3.2.0
 jupyter-client==6.1.2
 jupyter-console==6.0.0
 jupyter-core==4.6.3
+Keras==2.4.3
 keyring==18.0.1
 keyrings.alt==3.4.0
 language-selector==0.1
@@ -60,6 +62,7 @@ nbconvert==5.6.1
 nbformat==5.0.4
 netifaces==0.10.4
 notebook==6.0.3
+numpy==1.19.0
 oauth==1.0.1
 oauthlib==3.1.0
 olefile==0.46
@@ -97,6 +100,7 @@ pyzmq==18.1.1
 reportlab==3.5.34
 requests==2.22.0
 requests-unixsocket==0.2.0
+scipy==1.5.1
 SecretStorage==2.3.1
 Send2Trash==1.5.0
 simplejson==3.16.0
