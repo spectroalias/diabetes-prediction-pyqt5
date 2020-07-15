@@ -3,11 +3,12 @@ import sys
 import numpy as np
 import pickle
 import Diabetes_DL_script
-from Diabetes_DL_script import diabetes_model
+from Diabetes_DL_script import Prediction_Model
+from sklearn.preprocessing import MinMaxScaler
 
 class Ui_Prediction_Meter(object):
     def __init__(self):
-        self.model = diabetes_model()
+        self.model = Prediction_Model()
 
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
@@ -95,12 +96,16 @@ class Ui_Prediction_Meter(object):
 
     def calculation(self):
         #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
-        arr=[self.preg_2.toPlainText(),self.glucose_2.toPlainText(),self.bp_2.toPlainText(),self.sk_thick_2.toPlainText(),self.insu_2.toPlainText(),self.bmi_2.toPlainText(),self.dp_2.toPlainText(),self.age_2.toPlainText()]
-        arr= list(map(float,arr))
-        arr= np.array(arr)
-        pred = self.model.predict(arr.reshape(1,8))
+        s       =self.model.diabetes_model()
+        arr     =[self.preg_2.toPlainText(),self.glucose_2.toPlainText(),self.bp_2.toPlainText(),self.sk_thick_2.toPlainText(),self.insu_2.toPlainText(),self.bmi_2.toPlainText(),self.dp_2.toPlainText(),self.age_2.toPlainText()]
+        arr     =list(map(float,arr))
+        # scale =MinMaxScaler((0,1))
+        # arr   =scale.fit_transform(arr)
+        arr     =np.array([np.array(arr)])
+        arr     =self.model.std_scaling(arr)
+        pred    =s.predict(arr.reshape(-1,1,8))
         print(pred) #debugging float("{:.2f}".format(round(pred, 4)))
-        self.Result.display(float("{:.2f}".format(round(pred, 4))))
+        self.Result.display(float(pred[0][0][0]*100))
 
 app = QtWidgets.QApplication(sys.argv)
 Dialog = QtWidgets.QDialog()
