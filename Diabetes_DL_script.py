@@ -12,12 +12,8 @@ class Prediction_Model():
         self.feature_names = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
         self.x = df_mod[self.feature_names]
         self.y = df_mod.Outcome
-        # x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=.25,random_state=20,stratify = df_mod.Outcome)
         self.scale = StandardScaler()
         self.x = self.scale.fit_transform(self.x)
-        # x_test  = scale.fit_transform(x_test)
-        # x_train = np.array(x_train)
-        # y_train = np.array(y_train)
         print("data prepration completed !")
         self.s = Sequential()
         self.s.add(Dense(units=8,input_shape=(len(self.feature_names),),activation="relu",))
@@ -34,9 +30,3 @@ class Prediction_Model():
 
     def std_scaling(self,arr):
         return self.scale.transform(arr)
-
-
-# s=diabetes_model()
-# arr = np.array([12.,12.,12.,12.,12.,12.,12.,12.])
-# y_=s.predict(arr.reshape(1,8))
-# print(y_)
