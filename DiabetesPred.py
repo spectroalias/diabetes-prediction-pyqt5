@@ -1,9 +1,32 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtGui import QDoubleValidator
 import sys
 import numpy as np
 import pickle
 import Diabetes_DL_script
 from Diabetes_DL_script import Prediction_Model
+from PyQt5.QtGui import QDoubleValidator, QValidator
+from sys import float_info
+
+class DoubleValidator(QDoubleValidator):
+    
+
+    def __init__(self, bottom = float_info.min, top = float_info.max, decimals = float_info.dig, parent = None):
+        super(DoubleValidator, self).__init__(bottom, top, decimals, parent)
+
+    def validate(self, input_value, pos):
+        print(pos,input_value)
+        state,_, pos = QDoubleValidator.validate(self, input_value, pos)
+        
+        if input_value=='' or input_value == '.':
+            return QValidator.Intermediate, pos
+        
+        if state != QValidator.Acceptable:
+            return QValidator.Invalid, pos
+        
+        return QValidator.Acceptable, pos
+
 
 class Prediction_Meter(object):
     def __init__(self):
@@ -11,12 +34,13 @@ class Prediction_Meter(object):
 
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
-        Prediction_Meter.resize(561, 336)
-        
+        Prediction_Meter.setFixedSize(561, 336)
+       
+       
         self.Heading = QtWidgets.QLabel(Prediction_Meter)
         self.Heading.setGeometry(QtCore.QRect(0, 10, 561, 41))
         self.Heading.setObjectName("Heading")
-        
+
         self.layoutWidget = QtWidgets.QWidget(Prediction_Meter)
         self.layoutWidget.setGeometry(QtCore.QRect(20, 60, 521, 121))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -29,25 +53,33 @@ class Prediction_Meter(object):
         self.dp.setObjectName("dp")
         self.gridLayout.addWidget(self.dp, 2, 0, 1, 1)
         
-        self.glucose_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.glucose_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.glucose_2.setObjectName("glucose_2")
+        self.glucose_2.setValidator(QDoubleValidator(70.00, 180.00, 3))
         self.gridLayout.addWidget(self.glucose_2, 0, 1, 1, 1)
-        
+        self.glucose_2.setPlaceholderText("70-180 mg/dl")
+
         self.sk_thick = QtWidgets.QLabel(self.layoutWidget)
         self.sk_thick.setObjectName("sk_thick")
         self.gridLayout.addWidget(self.sk_thick, 3, 2, 1, 1)
         
-        self.dp_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.dp_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.dp_2.setObjectName("dp_2")
         self.gridLayout.addWidget(self.dp_2, 2, 1, 1, 1)
+        self.dp_2.setPlaceholderText("diabetes pedigree index 0-3")
+        self.dp_2.setValidator(QDoubleValidator(.00, 3.00, 3))
         
-        self.bmi_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.bmi_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.bmi_2.setObjectName("bmi_2")
         self.gridLayout.addWidget(self.bmi_2, 1, 3, 1, 1)
+        self.bmi_2.setPlaceholderText("10-50")
+        self.bmi_2.setValidator(QDoubleValidator(10.00, 50.00, 2))
         
-        self.preg_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.preg_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.preg_2.setObjectName("preg_2")
         self.gridLayout.addWidget(self.preg_2, 1, 1, 1, 1)
+        self.preg_2.setPlaceholderText("0 if male")
+        self.preg_2.setValidator(QDoubleValidator(0,100,0))
         
         self.glucose = QtWidgets.QLabel(self.layoutWidget)
         self.glucose.setObjectName("glucose")
@@ -57,17 +89,21 @@ class Prediction_Meter(object):
         self.bp.setObjectName("bp")
         self.gridLayout.addWidget(self.bp, 2, 2, 1, 1)
         
-        self.sk_thick_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.sk_thick_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.sk_thick_2.setObjectName("sk_thick_2")
         self.gridLayout.addWidget(self.sk_thick_2, 3, 3, 1, 1)
+        self.sk_thick_2.setPlaceholderText("triceps SkinThickness 10-50mm")
+        self.sk_thick_2.setValidator(QDoubleValidator(10.00, 50.00, 2))
         
         self.insu = QtWidgets.QLabel(self.layoutWidget)
         self.insu.setObjectName("insu")
         self.gridLayout.addWidget(self.insu, 3, 0, 1, 1)
         
-        self.age_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.age_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.age_2.setObjectName("age_2")
         self.gridLayout.addWidget(self.age_2, 0, 3, 1, 1)
+        self.age_2.setPlaceholderText("1-100 is recommended")
+        self.age_2.setValidator(QDoubleValidator(0, 110, 0))
         
         self.preg = QtWidgets.QLabel(self.layoutWidget)
         self.preg.setObjectName("preg")
@@ -77,13 +113,17 @@ class Prediction_Meter(object):
         self.age.setObjectName("age")
         self.gridLayout.addWidget(self.age, 0, 2, 1, 1)
         
-        self.bp_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.bp_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.bp_2.setObjectName("bp_2")
         self.gridLayout.addWidget(self.bp_2, 2, 3, 1, 1)
+        self.bp_2.setPlaceholderText("80-140mm Hg")
+        self.bp_2.setValidator(QDoubleValidator(70.00, 150.00, 2))
         
-        self.insu_2 = QtWidgets.QTextEdit(self.layoutWidget)
+        self.insu_2 = QtWidgets.QLineEdit(self.layoutWidget)
         self.insu_2.setObjectName("insu_2")
         self.gridLayout.addWidget(self.insu_2, 3, 1, 1, 1)
+        self.insu_2.setPlaceholderText("15-276mu U/ml")
+        self.insu_2.setValidator(QDoubleValidator(15.00, 300.00, 2))
         
         self.bmi = QtWidgets.QLabel(self.layoutWidget)
         self.bmi.setObjectName("bmi")
@@ -103,8 +143,7 @@ class Prediction_Meter(object):
         
         self.Result = QtWidgets.QLCDNumber(Prediction_Meter)
         self.Result.setGeometry(QtCore.QRect(420, 290, 81, 20))
-        self.Result.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"border-color: rgb(137, 29, 29);")
+        self.Result.setStyleSheet("background-color: rgb(85, 87, 83);border-color: rgb(137, 29, 29);")
         self.Result.setObjectName("Result")
 
         self.percent_label = QtWidgets.QLabel(Prediction_Meter)
@@ -136,16 +175,27 @@ class Prediction_Meter(object):
     def calculation(self):
         #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
         s       =self.model.diabetes_model()
-        arr     =[self.preg_2.toPlainText(),self.glucose_2.toPlainText(),self.bp_2.toPlainText(),self.sk_thick_2.toPlainText(),self.insu_2.toPlainText(),self.bmi_2.toPlainText(),self.dp_2.toPlainText(),self.age_2.toPlainText()]
+        arr     =[self.preg_2.text(),self.glucose_2.text(),self.bp_2.text(),self.sk_thick_2.text(),self.insu_2.text(),self.bmi_2.text(),self.dp_2.text(),self.age_2.text()]
         arr     =list(map(float,arr))
+        # print(arr)
         arr     =np.array([np.array(arr)])
         arr     =self.model.std_scaling(arr)
         pred    =s.predict(arr.reshape(-1,1,8))
-        print(pred) #debugging float("{:.2f}".format(round(pred, 4)))
+        # print(pred) 
         self.Result.display(float(pred[0][0][0]*100))
 
     def clearall(self):
-        pass
+        self.age_2.clear()
+        self.bmi_2.clear()
+        self.insu_2.clear()
+        self.bp_2.clear()
+        self.glucose_2.clear()
+        self.dp_2.clear()
+        self.sk_thick_2.clear()
+        self.preg_2.clear()
+
+        self.Result.display(0.000)
+        
 
 app = QtWidgets.QApplication(sys.argv)
 Dialog = QtWidgets.QDialog()
