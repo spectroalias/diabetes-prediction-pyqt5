@@ -6,31 +6,13 @@ import numpy as np
 import pickle
 import Diabetes_DL_script
 from Diabetes_DL_script import Prediction_Model
-from PyQt5.QtGui import QDoubleValidator, QValidator
-from sys import float_info
 
-class DoubleValidator(QDoubleValidator):
-    
-
-    def __init__(self, bottom = float_info.min, top = float_info.max, decimals = float_info.dig, parent = None):
-        super(DoubleValidator, self).__init__(bottom, top, decimals, parent)
-
-    def validate(self, input_value, pos):
-        print(pos,input_value)
-        state,_, pos = QDoubleValidator.validate(self, input_value, pos)
-        
-        if input_value=='' or input_value == '.':
-            return QValidator.Intermediate, pos
-        
-        if state != QValidator.Acceptable:
-            return QValidator.Invalid, pos
-        
-        return QValidator.Acceptable, pos
-
+# range validation is hardvoded or implemented qdoublevalidation is not working
 
 class Prediction_Meter(object):
     def __init__(self):
         self.model = Prediction_Model()
+        #model will be trained once it is run the first time
 
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
@@ -150,10 +132,10 @@ class Prediction_Meter(object):
         self.percent_label.setGeometry(QtCore.QRect(510, 290, 31, 21))
         self.percent_label.setObjectName("percent_label")
 
-        self.retranslateUi(Prediction_Meter)
+        self.translateUi(Prediction_Meter)
         QtCore.QMetaObject.connectSlotsByName(Prediction_Meter)
 
-    def retranslateUi(self, Prediction_Meter):
+    def translateUi(self, Prediction_Meter):
         _translate = QtCore.QCoreApplication.translate
         Prediction_Meter.setWindowTitle(_translate("Prediction_Meter", "Prediction Meter"))
         
@@ -168,21 +150,78 @@ class Prediction_Meter(object):
         self.bmi.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">*BMI:</p></body></html>"))
         self.Prediction.setText(_translate("Prediction_Meter", "Result"))
         self.clear.setText(_translate("Prediction_Meter", "Clear"))
-        self.result.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; font-style:italic; color:#a40000;\">Results will be displayed here :</span></p></body></html>"))
+        self.result.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; font-style:italic; color:#a40000;\">Diabetic possibility will be displayed here :</span></p></body></html>"))
         self.Result.setToolTip(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt; font-style:italic; color:#fce94f;\">prediction</span></p></body></html>"))
         self.percent_label.setText(_translate("Prediction_Meter", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600; font-style:italic; color:#a40000;\">%</span></p></body></html>"))
 
     def calculation(self):
         #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
         s       =self.model.diabetes_model()
-        arr     =[self.preg_2.text(),self.glucose_2.text(),self.bp_2.text(),self.sk_thick_2.text(),self.insu_2.text(),self.bmi_2.text(),self.dp_2.text(),self.age_2.text()]
-        arr     =list(map(float,arr))
-        # print(arr)
-        arr     =np.array([np.array(arr)])
-        arr     =self.model.std_scaling(arr)
-        pred    =s.predict(arr.reshape(-1,1,8))
-        # print(pred) 
-        self.Result.display(float(pred[0][0][0]*100))
+        arr     =[self.preg_2,self.glucose_2,self.bp_2,self.sk_thick_2,self.insu_2,self.bmi_2,self.dp_2,self.age_2]
+        arr ,ee = self.empty_entry_validation(arr)
+        if ee == 0:
+            arr     =list(map(float,arr))
+            # print(arr)
+            re = self.range_validation(arr)
+            if re == 0: 
+                arr     =np.array([np.array(arr)])
+                arr     =self.model.std_scaling(arr)
+                pred    =s.predict(arr.reshape(-1,1,8))
+                # print(pred) 
+                self.Result.display(float(pred[0][0][0]*100))
+            else:
+                self.showdialog("invalid values as input")
+        else:
+            self.showdialog("please first enter the values")
+
+    def range_validation(self,arr):
+        range_errors = 0
+        if arr[0]>15:
+            range_errors+=1
+            self.preg_2.clear()
+        
+        if arr[1]>180.00 or arr[1]<70.00:
+            range_errors+=1
+            self.glucose_2.clear()
+        
+        if arr[2]>180.00 or arr[2]<70.00:
+            range_errors+=1
+            self.bp_2.clear()
+        
+        if arr[3]>50.00 or arr[3]<10.00:
+            range_errors+=1
+            self.sk_thick_2.clear()
+        
+        if arr[4]>300.00 or arr[4]<15.00:
+            range_errors+=1
+            self.insu_2.clear()
+        
+        if arr[5]>50.00 or arr[5]<10.00:
+            range_errors+=1
+            self.bmi_2.clear()
+        
+        if arr[6]>3.00 or arr[6]<0.00:
+            range_errors+=1
+            self.dp_2.clear()
+        
+        if arr[7]>110.00 or arr[7]<1.00 :
+            range_errors+=1
+            self.age_2.clear()
+        
+        return range_errors
+
+    def empty_entry_validation(self,arr):
+        l=[]
+        empty=0
+        for x in arr:
+            l.append(x.text())
+        if '' in l :
+            empty=1
+        for i in range(len(l)):
+            if l[i]=='.':
+                arr[i].clear()
+                empty=1
+        return l,empty
 
     def clearall(self):
         self.age_2.clear()
@@ -193,9 +232,17 @@ class Prediction_Meter(object):
         self.dp_2.clear()
         self.sk_thick_2.clear()
         self.preg_2.clear()
-
         self.Result.display(0.000)
-        
+
+    def showdialog(self,s):
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("Error: Unexpected input by the user")
+        msg.setInformativeText("Additional information")
+        msg.setWindowTitle("Error!")
+        msg.setDetailedText(s)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+        msg.exec_()
 
 app = QtWidgets.QApplication(sys.argv)
 Dialog = QtWidgets.QDialog()
@@ -203,5 +250,6 @@ ui = Prediction_Meter()
 ui.setupUi(Dialog)
 Dialog.show()
 sys.exit(app.exec_())
+
 
     
