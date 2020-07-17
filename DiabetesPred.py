@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QSizePolicy
-from PyQt5.QtGui import QDoubleValidator
+from PyQt5.QtGui import QDoubleValidator,QIntValidator
 import sys
 import numpy as np
 import pickle
@@ -65,7 +65,7 @@ class Prediction_Meter(object):
         self.preg_2.setObjectName("preg_2")
         self.gridLayout.addWidget(self.preg_2, 1, 1, 1, 1)
         self.preg_2.setPlaceholderText("0 if male")
-        self.preg_2.setValidator(QDoubleValidator(0,100,0))
+        self.preg_2.setValidator(QIntValidator())
         
         self.glucose = QtWidgets.QLabel(self.layoutWidget)
         self.glucose.setObjectName("glucose")
@@ -209,27 +209,27 @@ class Prediction_Meter(object):
 
     def range_validation(self,arr):
         range_errors = 0
-        if arr[0]>15:
+        if arr[0]>25:
             range_errors+=1
             self.preg_2.clear()
         
-        if arr[1]>180.00 or arr[1]<70.00:
+        if arr[1]>200.00 or arr[1]<44.00:
             range_errors+=1
             self.glucose_2.clear()
         
-        if arr[2]>180.00 or arr[2]<70.00:
+        if arr[2]>180.00 or arr[2]<24.00:
             range_errors+=1
             self.bp_2.clear()
         
-        if arr[3]>50.00 or arr[3]<10.00:
+        if arr[3]>100.00 or arr[3]<0.00:
             range_errors+=1
             self.sk_thick_2.clear()
         
-        if arr[4]>300.00 or arr[4]<15.00:
+        if arr[4]>900.00 or arr[4]<0.00:
             range_errors+=1
             self.insu_2.clear()
         
-        if arr[5]>50.00 or arr[5]<10.00:
+        if arr[5]>70.00 or arr[5]<15.00:
             range_errors+=1
             self.bmi_2.clear()
         
@@ -237,7 +237,7 @@ class Prediction_Meter(object):
             range_errors+=1
             self.dp_2.clear()
         
-        if arr[7]>110.00 or arr[7]<1.00 :
+        if arr[7]>100.00 or arr[7]<1.00 :
             range_errors+=1
             self.age_2.clear()
         return range_errors
