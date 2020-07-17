@@ -6,17 +6,19 @@ import numpy as np
 import pickle
 import Diabetes_DL_script
 from Diabetes_DL_script import Prediction_Model
+from report_printing import print_report
 
 # range validation is hardvoded or implemented qdoublevalidation is not working
 
 class Prediction_Meter(object):
     def __init__(self):
         self.model = Prediction_Model()
+        self.arr=['','','','','','','','']
         #model will be trained once it is run the first time
 
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
-        Prediction_Meter.setFixedSize(561, 336)
+        Prediction_Meter.setFixedSize(561, 392)
        
        
         self.Heading = QtWidgets.QLabel(Prediction_Meter)
@@ -132,8 +134,32 @@ class Prediction_Meter(object):
         self.percent_label.setGeometry(QtCore.QRect(510, 290, 31, 21))
         self.percent_label.setObjectName("percent_label")
 
+        self.name_2 = QtWidgets.QLineEdit(Prediction_Meter)
+        self.name_2.setGeometry(QtCore.QRect(200, 350, 161, 31))
+        self.name_2.setObjectName("name_2")
+        
+        self.Print = QtWidgets.QPushButton(Prediction_Meter,clicked=self.print_option)
+        self.Print.setGeometry(QtCore.QRect(370, 350, 80, 31))
+        self.Print.setObjectName("Print")
+        
+        self.name = QtWidgets.QLabel(Prediction_Meter)
+        self.name.setGeometry(QtCore.QRect(110, 355, 81, 21))
+        self.name.setObjectName("name")
+        
         self.translateUi(Prediction_Meter)
         QtCore.QMetaObject.connectSlotsByName(Prediction_Meter)
+        #tab order implementation
+        Prediction_Meter.setTabOrder(self.glucose_2, self.age_2)
+        Prediction_Meter.setTabOrder(self.age_2, self.preg_2)
+        Prediction_Meter.setTabOrder(self.preg_2, self.bmi_2)
+        Prediction_Meter.setTabOrder(self.bmi_2, self.dp_2)
+        Prediction_Meter.setTabOrder(self.dp_2, self.bp_2)
+        Prediction_Meter.setTabOrder(self.bp_2, self.insu_2)
+        Prediction_Meter.setTabOrder(self.insu_2, self.sk_thick_2)
+        Prediction_Meter.setTabOrder(self.sk_thick_2, self.Prediction)
+        Prediction_Meter.setTabOrder(self.Prediction, self.name_2)
+        Prediction_Meter.setTabOrder(self.name_2, self.Print)
+        Prediction_Meter.setTabOrder(self.Print, self.clear)
 
     def translateUi(self, Prediction_Meter):
         _translate = QtCore.QCoreApplication.translate
@@ -150,9 +176,11 @@ class Prediction_Meter(object):
         self.bmi.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"right\">*BMI:</p></body></html>"))
         self.Prediction.setText(_translate("Prediction_Meter", "Result"))
         self.clear.setText(_translate("Prediction_Meter", "Clear"))
-        self.result.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; font-style:italic; color:#a40000;\">Diabetic possibility will be displayed here :</span></p></body></html>"))
+        self.result.setText(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600; font-style:italic; color:#a40000;\">Results will be displayed here :</span></p></body></html>"))
         self.Result.setToolTip(_translate("Prediction_Meter", "<html><head/><body><p align=\"center\"><span style=\" font-size:8pt; font-style:italic; color:#fce94f;\">prediction</span></p></body></html>"))
         self.percent_label.setText(_translate("Prediction_Meter", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600; font-style:italic; color:#a40000;\">%</span></p></body></html>"))
+        self.Print.setText(_translate("Prediction_Meter", "Print"))
+        self.name.setText(_translate("Prediction_Meter", "Patient\'s name:"))
 
     def calculation(self):
         #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
@@ -164,11 +192,12 @@ class Prediction_Meter(object):
             # print(arr)
             re = self.range_validation(arr)
             if re == 0: 
+                self.arr=arr
                 arr     =np.array([np.array(arr)])
                 arr     =self.model.std_scaling(arr)
-                pred    =s.predict(arr.reshape(-1,1,8))
+                self.pred    =s.predict(arr.reshape(-1,1,8))
                 # print(pred) 
-                self.Result.display(float(pred[0][0][0]*100))
+                self.Result.display(float(self.pred[0][0][0]*100))
             else:
                 self.showdialog("invalid values as input")
         else:
@@ -233,16 +262,32 @@ class Prediction_Meter(object):
         self.sk_thick_2.clear()
         self.preg_2.clear()
         self.Result.display(0.000)
+        self.arr=['','','','','','','','']
 
     def showdialog(self,s):
         msg = QtWidgets.QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Information)
-        msg.setText("Error: Unexpected input by the user")
+        msg.setText("Message Alert!")
         msg.setInformativeText("Additional information")
-        msg.setWindowTitle("Error!")
+        msg.setWindowTitle("Hi there!")
         msg.setDetailedText(s)
         msg.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
         msg.exec_()
+    
+    def print_option(self):
+        #empty entry check
+        e=0
+        for x in self.arr:
+            if x=='':
+                e=1
+                break
+        if e !=0 or self.name_2.text()=='' or self.pred==0.00:
+            self.showdialog("Please enter all the inputs first and run the test")  
+            return 
+        name = self.name_2.text()
+        print_report(fname=name,arr=self.arr,res=self.pred)
+        self.showdialog("file is saved path as: /reports"+name+"_report.pdf")  
+
 
 app = QtWidgets.QApplication(sys.argv)
 Dialog = QtWidgets.QDialog()
