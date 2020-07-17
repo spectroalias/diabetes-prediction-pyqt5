@@ -14,13 +14,15 @@ class Prediction_Meter(object):
     def __init__(self):
         self.model = Prediction_Model()
         self.arr=['','','','','','','','']
-        #model will be trained once it is run the first time
+        #self.model will be trained once it is run for the first time
+        #self.arr being the content of the entries
 
+    #GUI code starts:
     def setupUi(self, Prediction_Meter):
         Prediction_Meter.setObjectName("Prediction_Meter")
         Prediction_Meter.setFixedSize(561, 392)
        
-       
+       #Qdoublevalidator range functionality not working so hard inplemantation is done 
         self.Heading = QtWidgets.QLabel(Prediction_Meter)
         self.Heading.setGeometry(QtCore.QRect(0, 10, 561, 41))
         self.Heading.setObjectName("Heading")
@@ -148,6 +150,7 @@ class Prediction_Meter(object):
         
         self.translateUi(Prediction_Meter)
         QtCore.QMetaObject.connectSlotsByName(Prediction_Meter)
+        
         #tab order implementation
         Prediction_Meter.setTabOrder(self.glucose_2, self.age_2)
         Prediction_Meter.setTabOrder(self.age_2, self.preg_2)
@@ -182,6 +185,9 @@ class Prediction_Meter(object):
         self.Print.setText(_translate("Prediction_Meter", "Print"))
         self.name.setText(_translate("Prediction_Meter", "Patient\'s name:"))
 
+        #GUI code ends.
+
+    #functionality of the application:
     def calculation(self):
         #feature_names ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
         s       =self.model.diabetes_model()
@@ -189,14 +195,12 @@ class Prediction_Meter(object):
         arr ,ee = self.empty_entry_validation(arr)
         if ee == 0:
             arr     =list(map(float,arr))
-            # print(arr)
             re = self.range_validation(arr)
             if re == 0: 
                 self.arr=arr
                 arr     =np.array([np.array(arr)])
                 arr     =self.model.std_scaling(arr)
                 self.pred    =s.predict(arr.reshape(-1,1,8))
-                # print(pred) 
                 self.Result.display(float(self.pred[0][0][0]*100))
             else:
                 self.showdialog("invalid values as input")
@@ -236,7 +240,6 @@ class Prediction_Meter(object):
         if arr[7]>110.00 or arr[7]<1.00 :
             range_errors+=1
             self.age_2.clear()
-        
         return range_errors
 
     def empty_entry_validation(self,arr):
@@ -276,7 +279,6 @@ class Prediction_Meter(object):
         msg.exec_()
     
     def print_option(self):
-        #empty entry check
         e=0
         for x in self.arr:
             if x=='':
@@ -289,7 +291,7 @@ class Prediction_Meter(object):
         print_report(fname=name,arr=self.arr,res=self.pred)
         self.showdialog("file is saved path as: /reports"+name+"_report.pdf")  
 
-
+#main call to  program
 app = QtWidgets.QApplication(sys.argv)
 Dialog = QtWidgets.QDialog()
 ui = Prediction_Meter()
