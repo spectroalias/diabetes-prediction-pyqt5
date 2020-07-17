@@ -261,6 +261,7 @@ class Prediction_Meter(object):
         self.dp_2.clear()
         self.sk_thick_2.clear()
         self.preg_2.clear()
+        self.name_2.clear()
         self.Result.display(0.000)
         self.arr=['','','','','','','','']
 
