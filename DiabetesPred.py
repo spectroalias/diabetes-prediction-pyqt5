@@ -284,20 +284,21 @@ class Prediction_Meter(object):
             if x=='':
                 e=1
                 break
-        if e !=0 or self.name_2.text()=='' or self.pred==0.00:
-            self.showdialog("Please enter all the inputs first and run the test")  
+        if e !=0 or self.name_2.text()=='' or self.pred==0.00 or not self.name_2.text().isalpha():
+            self.showdialog("Please enter all the valid inputs first and run the test")  
             return 
         name = self.name_2.text()
         print_report(fname=name,arr=self.arr,res=self.pred)
         self.showdialog("file is saved path as: /reports"+name+"_report.pdf")  
 
 #main call to  program
-app = QtWidgets.QApplication(sys.argv)
-Dialog = QtWidgets.QDialog()
-ui = Prediction_Meter()
-ui.setupUi(Dialog)
-Dialog.show()
-sys.exit(app.exec_())
+if __name__== '__main__':
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Prediction_Meter()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
 
 
     
