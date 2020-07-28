@@ -4,9 +4,9 @@ from PyQt5.QtGui import QDoubleValidator,QIntValidator
 import sys
 import numpy as np
 import pickle
-import Diabetes_DL_script
-from Diabetes_DL_script import Prediction_Model
-from report_printing import print_report
+import model
+from model import Prediction_Model
+from printing import print_report
 
 # range validation is hardvoded or implemented qdoublevalidation is not working
 
@@ -280,16 +280,20 @@ class Prediction_Meter(object):
     
     def print_option(self):
         e=0
+        name = self.name_2.text()
         for x in self.arr:
             if x=='':
                 e=1
                 break
-        if e !=0 or self.name_2.text()=='' or self.pred==0.00 or not self.name_2.text().isalpha():
+        if e !=0 or self.name_2.text()=='' or self.pred==0.00 or not name.isalpha():
             self.showdialog("Please enter all the valid inputs first and run the test")  
             return 
-        name = self.name_2.text()
-        print_report(fname=name,arr=self.arr,res=self.pred)
-        self.showdialog("file is saved path as: /reports"+name+"_report.pdf")  
+        flag = print_report(fname=name,arr=self.arr,res=self.pred)
+        if flag:
+            self.showdialog("file is saved path as: /reports/"+name+"_report.pdf")  
+        else:
+            self.showdialog("Template file does not exist,  NO PRINTING DONE")  
+
 
 #main call to  program
 if __name__== '__main__':

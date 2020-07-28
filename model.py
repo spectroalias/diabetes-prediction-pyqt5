@@ -2,12 +2,20 @@ from keras.models import Sequential
 from keras.layers import Dense,Dropout
 import pandas as pd 
 import numpy as np
-# from sklearn.model_selection import train_test_split
+import os
 from sklearn.preprocessing import StandardScaler
+
+BASE_DIR=os.path.dirname(__file__)
+fname ="train_data.csv"
+csv_path=os.path.join(BASE_DIR,fname)
 
 class Prediction_Model():
     def __init__(self):
-        df=pd.read_csv('diabetes2.csv')
+        if os.path.exists(csv_path):
+            df=pd.read_csv(fname)
+        else:    
+            print(f"the file name {fname} does not exist")
+            exit()
         df_mod = df[(df.BloodPressure != 0) & (df.BMI != 0) & (df.Glucose != 0)]
         self.feature_names = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
         self.x = df_mod[self.feature_names]
@@ -22,7 +30,7 @@ class Prediction_Model():
         self.s.add(Dense(units=32,activation="relu",))
         self.s.add(Dense(units=1,activation="sigmoid",))
         self.s.compile(optimizer='Adam',loss='binary_crossentropy',metrics=["accuracy"])
-        self.s.fit(x=self.x, y=self.y, batch_size=50, epochs=130)
+        self.s.fit(x=self.x, y=self.y, batch_size=50, epochs=120)
         print("model training completed and deployed !")
 
     def diabetes_model(self):
