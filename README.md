@@ -1,16 +1,21 @@
 # Diabetes Prediction on PYQT5
 
-its a pyqt5 application based on a famous dataset of diabetes detection it gives the result taking some inputs. 
+Its a PYQT5 application based on a famous dataset of diabetes detection it gives the result taking necessary inputs. 
 
-it has a full fledged validation which is made for the user-friendly experience and prevents the unnecessary failure
+## features:
+### - It has a full fledged validation
+### - User-friendly experience 
+### - Prevents the unnecessary failure 
+### - Popup notification feature
+### - Printing the report 
 
 Model used is a basic multi-layered perceptron used for classification
 
 ## instructions:
-1. Install the requirements as in requirements.txt
-2. open the termiinal or the ide in that directory 
-3. run the application via command:  
-    ##### python3 main.py
+#### 1. Install the requirements as in requirements.txt
+#### 2. open the termiinal or the ide in that directory 
+#### 3. run the application via command:  
+    ###### python3 main.py
 
 ## screenshots are as follows:
 
@@ -20,4 +25,4 @@ Model used is a basic multi-layered perceptron used for classification
 
  ![](screenshots/ss2.png)
 
-### printing the report actually save the file as .pdf format that can be viewed in reports directory
+### printing save the file as .pdf format that can be viewed in reports directory

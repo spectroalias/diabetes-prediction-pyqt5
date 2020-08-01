@@ -7,8 +7,12 @@ import pickle
 import model
 from model import Prediction_Model
 from printing import print_report
+import os
+import subprocess
 
 # range validation is hardvoded or implemented qdoublevalidation is not working
+BASE_DIR=os.path.dirname(__file__)
+ICON_PATH=os.path.join(BASE_DIR,"icon.png")
 
 class Prediction_Meter(object):
     def __init__(self):
@@ -290,7 +294,7 @@ class Prediction_Meter(object):
             return 
         flag = print_report(fname=name,arr=self.arr,res=self.pred)
         if flag:
-            self.showdialog("file is saved path as: /reports/"+name+"_report.pdf")  
+            subprocess.Popen(["notify-send", "-i", ICON_PATH, "DIABETES PREDICTION", f"file is saved path as: /reports/{name}_report.pdf"])
         else:
             self.showdialog("Template file does not exist,  NO PRINTING DONE")  
 
