@@ -4,7 +4,7 @@ import os
 
 THIS_FILE_PATH = os.path.abspath(__file__)
 BASE_DIR=os.path.dirname(THIS_FILE_PATH)
-
+REPORT_path =  os.path.join(BASE_DIR,"reports")
 #['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
 
 def print_report(fname,arr,res):
@@ -26,6 +26,7 @@ def print_report(fname,arr,res):
                     }
 
         html_out = template.render(template_vars)
+        os.makedirs(REPORT_path,exist_ok=True)
         fname="reports/"+fname+"_report.pdf"
         HTML(string=html_out).write_pdf(fname)
         return True
