@@ -27,7 +27,7 @@ def print_report(fname,arr,res):
 
         html_out = template.render(template_vars)
         os.makedirs(REPORT_path,exist_ok=True)
-        fname="reports/"+fname+"_report.pdf"
+        fname="reports/"+fname.replace(" ","_")+"_report.pdf"
         HTML(string=html_out).write_pdf(fname)
         return True
     else:

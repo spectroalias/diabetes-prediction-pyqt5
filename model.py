@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 # import gi
 # from gi.repository import Notify
 
-BASE_DIR=os.path.dirname(__file__)
+BASE_DIR=os.path.dirname(os.path.abspath(__file__))
 fname ="train_data.csv"
 csv_path=os.path.join(BASE_DIR,fname)
 ICON_PATH=os.path.join(BASE_DIR,"icon.png")
