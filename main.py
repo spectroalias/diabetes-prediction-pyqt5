@@ -284,17 +284,17 @@ class Prediction_Meter(object):
     
     def print_option(self):
         e=0
-        name = self.name_2.text()
+        name = self.name_2.text().replace(" ","")
         for x in self.arr:
             if x=='':
                 e=1
                 break
-        if e !=0 or self.name_2.text()=='' or self.pred==0.00 or not name.replace(" ","").isalpha():
+        if e !=0 or self.name_2.text()=='' or self.pred==0.00 or not name.isalpha():
             self.showdialog("Please enter all the valid inputs first and run the test")  
             return 
         flag = print_report(fname=name,arr=self.arr,res=self.pred)
         if flag:
-            subprocess.Popen(["notify-send", "-i", ICON_PATH, "DIABETES PREDICTION", f"file is saved path as: /reports/{name.replace(" ","")}_report.pdf"])
+            subprocess.Popen(["notify-send", "-i", ICON_PATH, "DIABETES PREDICTION", f"file is saved path as: /reports/{name}_report.pdf"])
         else:
             self.showdialog("Template file does not exist,  NO PRINTING DONE")  
 
