@@ -7,7 +7,7 @@ backcall==0.1.0
 bleach==3.3.0
 cachetools==4.1.0
 cairocffi==1.1.0
-CairoSVG==2.4.2
+CairoSVG==2.5.1
 certifi==2020.4.5.1
 cffi==1.14.0
 chardet==3.0.4
@@ -112,7 +112,7 @@ backcall==0.1.0
 bleach==3.3.0
 cachetools==4.1.0
 cairocffi==1.1.0
-CairoSVG==2.4.2
+CairoSVG==2.5.1
 certifi==2020.4.5.1
 cffi==1.14.0
 chardet==3.0.4
