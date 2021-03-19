@@ -16,7 +16,7 @@ cssselect2==0.3.0
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
-Django==3.0.7
+Django==3.1.6
 entrypoints==0.3
 gast==0.3.3
 google-auth==1.15.0
@@ -121,7 +121,7 @@ cssselect2==0.3.0
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
-Django==3.0.7
+Django==3.1.6
 entrypoints==0.3
 gast==0.3.3
 google-auth==1.15.0
