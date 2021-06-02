@@ -96,7 +96,7 @@ threadpoolctl==2.1.0
 tinycss2==1.0.2
 tornado==6.0.4
 traitlets==4.3.3
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.1.9
 WeasyPrint==51
 webencodings==0.5.1
@@ -202,7 +202,7 @@ threadpoolctl==2.1.0
 tinycss2==1.0.2
 tornado==6.0.4
 traitlets==4.3.3
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.1.9
 WeasyPrint==51
 webencodings==0.5.1
