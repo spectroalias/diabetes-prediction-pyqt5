@@ -43,7 +43,7 @@ Markdown==3.2.2
 MarkupSafe==1.1.1
 matplotlib==3.2.1
 mistune==2.0.3
-nbconvert==6.3.0
+nbconvert==6.5.1
 nbformat==5.0.6
 notebook==6.4.12
 numpy==1.22.0
@@ -148,7 +148,7 @@ Markdown==3.2.2
 MarkupSafe==1.1.1
 matplotlib==3.2.1
 mistune==2.0.3
-nbconvert==6.3.0
+nbconvert==6.5.1
 nbformat==5.0.6
 notebook==6.4.12
 notify2==0.3.1
