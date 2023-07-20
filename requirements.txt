@@ -62,7 +62,7 @@ ptyprocess==0.6.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
-Pygments==2.7.4
+Pygments==2.15.0
 PyInstaller==3.6
 pyparsing==2.4.7
 Pyphen==0.9.5
@@ -168,7 +168,7 @@ ptyprocess==0.6.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
-Pygments==2.7.4
+Pygments==2.15.0
 PyInstaller==3.6
 pyparsing==2.4.7
 Pyphen==0.9.5
